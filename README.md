@@ -5,6 +5,11 @@ A long time ago in a galaxy far far away, Gavin Wood and Simon O'Keefe from the 
 
 It was first designed for [Amarok](https://amarok.kde.org/en) and it was later included in many other music players (like [Exaile](http://www.exaile.org/), [XMMS2](https://xmms2.org/wiki/Main_Page) and [clementine](https://www.clementine-player.org/)).
 
+## Dependencies
+
+* `pip install django`
+* `pip install tinytag`
+
 ## Web interface
 
 * Run Django server: `python webdigger/manage.py runserver 0.0.0.0:8000`

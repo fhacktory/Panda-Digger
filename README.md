@@ -9,3 +9,9 @@ It was first designed for [Amarok](https://amarok.kde.org/en) and it was later i
 
 * Run Django server: `python webdigger/manage.py runserver 0.0.0.0:8000`
 
+## Tools
+
+* Generating a .mood file from a .mp3: `moodGen.sh file1.mp3 [file2.mp3 ...]`
+* Generating a .csv file from a .mood: `moodCSV.py file1.mood [file2.mood ...]` (requires python 2.7)
+* Generating a .bmp moodbar from a .mood: `moodBMP.py imageHeight file1.mood [file2.mood ...]` (requires python 2.7)
+

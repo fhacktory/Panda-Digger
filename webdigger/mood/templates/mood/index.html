@@ -25,10 +25,17 @@
       <hr />
       <div class="col-md-2"></div>
       <div class="col-md-8 container-fluid boxplayer">
-	<audio controls>
-	  <source src="{% static 'mood/audio/Coin.wav' %}" type="audio/mpeg">
-	    Your browser does not support the audio element.
-	</audio>
+	<!-- <audio controls> -->
+	<!--   <source src="{% static 'mood/audio/Coin.wav' %}" type="audio/mpeg"> -->
+	<!--     Your browser does not support the audio element. -->
+	<!-- </audio> -->
+	<table class="table table-bordered table-hover table-responsive">
+	  {% for song in playlist %}
+	  <tr><td>{{song}}</td></tr>
+	  {% empty %}
+	  <tr><td>Nothing to display.</td></tr>
+	  {% endfor %}
+	</table>
       </div>
       <div class="col-md-2"></div>
     </div>

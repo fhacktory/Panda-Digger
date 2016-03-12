@@ -16,9 +16,10 @@ def generateCSV(inputPath, outputPath):
             while True:
                 byte = inputFile.read(3)
                 if len(byte) == 3:
-                    outputFile.write(str(byte[0]) + ";" + str(byte[1]) + ";" + str(byte[2]) + "\n")
+                    outputFile.write(str(ord(byte[0])) + ";" + str(ord(byte[1])) + ";" + str(ord(byte[2])) + "\n")
                 else:
                     break
+            return (0)
 
 #Generates a csv file for each mood file given in argument
 def moodCSV():

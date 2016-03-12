@@ -1,0 +1,33 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #191724;
+    font-family: 'Alegreya Sans', Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #eee;
+    background-image:url('../img/backgroundpanda.jpg');
+    background-position:left top;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+hr {
+    border: none;
+    margin: 30px;
+}
+p {
+    text-align: justify;
+    text-shadow: 0px 1px 2px #000;
+}
+h1, h2, h3, h4, h5, h6 {
+    text-shadow: 0px 3px 4px #000;
+    font-family: 'Alegreya Sans SC', Arial, Helvetica, sans-serif;
+}
+a { color: #0aacd4; }
+a:hover { text-decoration: none;color: #fff; }
+a:active { color: #f8db0c; }
+strong {
+    font-weight: normal;
+}

@@ -41,10 +41,10 @@ class Mpv(object):
                 if file_.endswith('.mp3'):
                     library.append(os.path.join(path, file_))
 
+        print 'found {} titles'.format(len(library))
         self.__library = library
         while not self.playlist:
             self.add_random()
-
 
     def add(self, path):
         try:

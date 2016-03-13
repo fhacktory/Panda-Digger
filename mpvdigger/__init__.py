@@ -4,8 +4,10 @@
 from collections import namedtuple
 import glob
 import os
+import random
 import subprocess
 import sys
+import threading
 import time
 
 from tinytag import TinyTag
@@ -22,19 +24,49 @@ class Mpv(object):
         self.playlist = []
         self.__playlist_index = -1
         self.__process = None
+        self.__library = []
+        self.__lock = threading.Lock()
 
     def __del__(self):
         self.stop()
 
+    def set_library_root_path(self, root):
+        root = os.path.abspath(root)
+        library = []
+        for path, _, files in os.walk(root):
+            if not files:
+                continue
+
+            for file_ in files:
+                if file_.endswith('.mp3'):
+                    library.append(os.path.join(path, file_))
+
+        self.__library = library
+        while not self.playlist:
+            self.add_random()
+
+
     def add(self, path):
-        tag = TinyTag.get(path)
-        artist = tag.artist or 'No arsist'
-        album = tag.album or 'No album'
-        title = tag.title or 'No title'
-        duration = int(tag.duration)
-        duration = '{:02}:{:02}'.format(duration / 60, duration % 60)
+        try:
+            tag = TinyTag.get(path)
+        except:
+            artiste = 'Pas'
+            album = 'de'
+            title = 'chocolat'
+            duration = '!'
+        else:
+            artist = tag.artist
+            album = tag.album
+            title = tag.title
+            duration = int(tag.duration)
+            duration = '{:02}:{:02}'.format(duration / 60, duration % 60)
         entry = Entry(path, artist, album, title, duration)
         self.playlist.append(entry)
+
+    def add_random(self):
+        with self.__lock:
+            choice = random.choice(self.__library)
+            self.add(choice)
 
     @property
     def pos(self):
@@ -43,8 +75,7 @@ class Mpv(object):
     def goto(self, index):
         self.stop()
         self.__playlist_index = index
-        entry = self.playlist[self.__playlist_index]
-        self.play(entry.path)
+        self.play(self.__playlist_index)
 
     def prev(self):
         self.goto(self.__playlist_index - 1)
@@ -58,11 +89,14 @@ class Mpv(object):
             self.__process = None
             self.__playlist_index = -1
 
-    def play(self, path):
+    def play(self, index):
+        entry = self.playlist[index]
         self.__process = subprocess.Popen(
-            ['mpv', '-vo', 'null', path],
+            ['mpv', '-vo', 'null', entry.path],
             stdout=DEVNULL, stderr=DEVNULL,
             close_fds=True)
+        if index == len(self.playlist) - 1:
+            threading.Thread(target=self.add_random).start()
 
 
 def main():
@@ -77,3 +111,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+else:
+    mpv = Mpv()

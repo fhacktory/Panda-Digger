@@ -13,6 +13,8 @@ import time
 
 from tinytag import TinyTag
 
+from moodAnalyze import MoodData
+
 
 DEVNULL = open(os.devnull, 'wb')
 
@@ -96,14 +98,14 @@ class Mpv(object):
         return 0 if mood_1 == mood_2 else 1
 
     def compute_mood(self, path):
-        c = magic_compute(path)
+        c = MoodData(path)
         if c.peak_hist_3 <= 6:
             if c.energy_2 <= 10491.378:
                 mood = SAD
             else:
                 if c.energy_1 <= 14269.795:
                     if c.energy_2 <= 14586.05:
-                        mood == HAPPY
+                        mood = HAPPY
                     else:
                         mood = EXCITED
                 else:

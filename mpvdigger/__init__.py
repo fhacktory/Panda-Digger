@@ -23,18 +23,20 @@ class Mpv(object):
     def add(self, path):
         self.playlist.append(path)
 
+    @property
     def pos(self):
         return self.__playlist_index
 
-    def prev(self):
+    def goto(self, index):
         self.stop()
-        self.__playlist_index -= 1
+        self.__playlist_index = index
         self.play(self.playlist[self.__playlist_index])
 
+    def prev(self):
+        self.goto(self.__playlist_index - 1)
+
     def next(self):
-        self.stop()
-        self.__playlist_index += 1
-        self.play(self.playlist[self.__playlist_index])
+        self.goto(self.__playlist_index + 1)
 
     def stop(self):
         if self.__process:

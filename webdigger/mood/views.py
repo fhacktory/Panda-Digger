@@ -27,5 +27,9 @@ def pos(request):
 
 
 def play(request, index):
-    mpv.goto(int(index))
+    index = int(index)
+    if index == mpv.pos:
+        mpv.stop()
+    else:
+        mpv.goto(index)
     return JsonResponse({})

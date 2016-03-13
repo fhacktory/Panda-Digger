@@ -56,6 +56,7 @@ class Mpv(object):
         if self.__process:
             self.__process.kill()
             self.__process = None
+            self.__playlist_index = -1
 
     def play(self, path):
         self.__process = subprocess.Popen(

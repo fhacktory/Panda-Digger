@@ -3,6 +3,7 @@
 
 from collections import namedtuple
 import glob
+import operator
 import os
 import random
 import subprocess
@@ -69,18 +70,18 @@ class Mpv(object):
             self.add(choice)
 
     def add_from_moodbar(self):
-        min_path = None
-        min_dist = float("inf")
+        dists = {}
         current = self.playlist[self.__playlist_index]
 
         for path in self.__library:
             if path == current.path:
                 continue
 
-            path_dist = self.__compute_distance(path, current.path)
-            if path_dist < min_dist:
-                min_path = path
-                min_dist = path_dist
+            dists[path] = self.__compute_distance(path, current.path)
+
+        dists = sorted(dists.iteritems(), key=operator.itemgetter(1))
+        min_dists = dists[:len(dists) / 10]
+        min_path, _ = random.choice(min_dists)
         self.add(min_path)
 
     @staticmethod

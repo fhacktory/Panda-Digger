@@ -68,6 +68,26 @@ class Mpv(object):
             choice = random.choice(self.__library)
             self.add(choice)
 
+    def add_from_moodbar(self):
+        min_path = None
+        min_dist = float("inf")
+        current = self.playlist[self.__playlist_index]
+
+        for path in self.__library:
+            if path == current.path:
+                continue
+
+            path_dist = self.__compute_distance(path, current.path)
+            if path_dist < min_dist:
+                min_path = path
+                min_dist = path_dist
+        self.add(min_path)
+
+    @staticmethod
+    def __compute_distance(path_1, path_2):
+        # TODO: function to replace with the real algorithm
+        return random.randint(0, 100)
+
     @property
     def pos(self):
         return self.__playlist_index
@@ -96,7 +116,7 @@ class Mpv(object):
             stdout=DEVNULL, stderr=DEVNULL,
             close_fds=True)
         if index == len(self.playlist) - 1:
-            threading.Thread(target=self.add_random).start()
+            threading.Thread(target=self.add_from_moodbar).start()
 
 
 def main():

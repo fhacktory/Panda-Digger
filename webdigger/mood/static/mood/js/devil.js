@@ -18,9 +18,20 @@ $(document).ready(function() {
             $.each(data.new, function(index, value){
                 $("#playlist").append("<tr><td>" + value + "</td></tr>");
             });
+            if (data.new.length > 0)
+            {
+                var last_index = $("#playlist tr:last-child").index();
+                var last_prev = $("#playlist tr:nth-child(" + last_index + ") td");
+                if (last_prev.css("font-weight") === "bold")
+                {
+                    $('html, body').animate({
+                        scrollTop: last_prev.offset().top
+                    }, 2000);
+                }
+            }
         },
         complete: function() {
-            setTimeout(worker_new, 10000);
+            setTimeout(worker_new, 5000);
         }
     });
 })();

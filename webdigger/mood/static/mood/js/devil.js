@@ -4,6 +4,9 @@ $(document).ready(function() {
             dataType: "json",
             url: "play/" + $(event.currentTarget).index(),
         });
+        $('html, body').animate({
+            scrollTop: $(event.currentTarget).offset().top
+        }, 2000);
     });
 });
 

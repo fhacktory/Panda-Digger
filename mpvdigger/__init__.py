@@ -16,6 +16,10 @@ from tinytag import TinyTag
 
 DEVNULL = open(os.devnull, 'wb')
 
+SAD = 'sad'
+EXCITED = 'excited'
+HAPPY = 'happy'
+
 
 Entry = namedtuple('Entry', ('path', 'artist', 'album', 'title', 'duration'))
 
@@ -84,10 +88,46 @@ class Mpv(object):
         min_path, _ = random.choice(min_dists)
         self.add(min_path)
 
-    @staticmethod
-    def __compute_distance(path_1, path_2):
+    def __compute_distance(self, path_1, path_2):
         # TODO: function to replace with the real algorithm
-        return random.randint(0, 100)
+        # return random.randint(0, 100)
+        mood_1 = self.compute_mood(path_1)
+        mood_2 = self.compute_mood(path_2)
+        return 0 if mood_1 == mood_2 else 1
+
+    def compute_mood(self, path):
+        c = magic_compute(path)
+        if c.peak_hist_3 <= 6:
+            if c.energy_2 <= 10491.378:
+                mood = SAD
+            else:
+                if c.energy_1 <= 14269.795:
+                    if c.energy_2 <= 14586.05:
+                        mood == HAPPY
+                    else:
+                        mood = EXCITED
+                else:
+                    if c.kbps <= 189:
+                        if c.energy_3 <= 15395.381:
+                            mood = HAPPY
+                        else:
+                            mood = EXCITED
+                    else:
+                        if c.energy_3 <= 9100.209:
+                            mood = SAD
+                        else:
+                            if c.energy_3 <= 10417.631:
+                                mood = HAPPY
+                            else:
+                                if c.peak_hist_3 <= 4:
+                                    if c.energy_2 <= 20298.757:
+                                        mood = SAD
+                                    else:
+                                        mood = EXCITED
+                                else:
+                                    mood = EXCITED
+        else:
+            mood = SAD
 
     @property
     def pos(self):

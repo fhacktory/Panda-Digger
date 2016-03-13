@@ -1,6 +1,7 @@
 #!/bin/python
 # -*- coding: utf-8 -*-
 
+from tinytag import TinyTag
 from sys import argv
 
 def usage():
@@ -51,10 +52,36 @@ def genMoodHist(fileName, inputFile, outputFile, localOutput):
     writeHist(countsG, localOutput)
     writeHist(countsB, localOutput)
 
-    outputFile.write(fileName + ";" +
-                     str(getCountsMax(countsR)) + ";" +
-                     str(getCountsMax(countsG)) + ";" +
-                     str(getCountsMax(countsB)) + "\n")
+    try:
+        tag = TinyTag.get(fileName[:-5] + ".mp3")
+        if tag.bitrate < 512:
+            br = int(round(tag.bitrate))
+        else:
+            br = int(round(tag.bitrate/1000))
+
+        outputFile.write(fileName + ";" +
+                         str(br) + ";")
+
+        table = []
+        ct = 0;
+        with open(fileName[:-5] + ".csv", 'r') as fd:
+            for line in fd:
+                table.append(line.strip().split(";"))
+                ct += 1;
+            for i in range(0,3):
+                subtotal = float(0)
+                for rgb in table:
+                    subtotal += pow(int(rgb[i]), 2)
+                subtotal /= ct
+                outputFile.write(str(subtotal) + ";")
+
+        outputFile.write(str(getCountsMax(countsR)) + ";" +
+                         str(getCountsMax(countsG)) + ";" +
+                         str(getCountsMax(countsB)) + "\n")
+
+    except OSError as ose:
+        print("Error: " + str(ose))
+        return (1)
 
     return (0)
 

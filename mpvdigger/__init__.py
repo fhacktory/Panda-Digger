@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from collections import namedtuple
 import glob
 import os
 import subprocess
 import sys
 import time
 
+from tinytag import TinyTag
+
 
 DEVNULL = open(os.devnull, 'wb')
+
+
+Entry = namedtuple('Entry', ('path', 'artist', 'album', 'title', 'duration'))
 
 
 class Mpv(object):
@@ -21,7 +27,14 @@ class Mpv(object):
         self.stop()
 
     def add(self, path):
-        self.playlist.append(path)
+        tag = TinyTag.get(path)
+        artist = tag.artist or 'No arsist'
+        album = tag.album or 'No album'
+        title = tag.title or 'No title'
+        duration = int(tag.duration)
+        duration = '{:02}:{:02}'.format(duration / 60, duration % 60)
+        entry = Entry(path, artist, album, title, duration)
+        self.playlist.append(entry)
 
     @property
     def pos(self):
@@ -30,7 +43,8 @@ class Mpv(object):
     def goto(self, index):
         self.stop()
         self.__playlist_index = index
-        self.play(self.playlist[self.__playlist_index])
+        entry = self.playlist[self.__playlist_index]
+        self.play(entry.path)
 
     def prev(self):
         self.goto(self.__playlist_index - 1)

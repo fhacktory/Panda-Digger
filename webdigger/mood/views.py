@@ -15,7 +15,11 @@ class IndexView(generic.TemplateView):
 
 
 def new(request, from_id):
-    return JsonResponse({'new': mpv.playlist[int(from_id):]})
+    entries = []
+    for entry in mpv.playlist[int(from_id):]:
+        entries.append(u'{} - {} - {} - {}'.format(
+            entry.artist, entry.album, entry.title, entry.duration))
+    return JsonResponse({'new': entries})
 
 
 def pos(request):

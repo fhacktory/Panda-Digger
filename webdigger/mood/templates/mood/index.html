@@ -15,26 +15,19 @@
     <link href="http://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300|Alegreya+Sans:300,400,700" rel="stylesheet" type="text/css">
     <!-- Javascript stuff :'( -->
     <script src="https://code.jquery.com/jquery.js"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'mood/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'mood/js/devil.js' %}"></script>
   </head>
 
   <body>
     <div class="container text-center">
-      
       <h1>MOODBAR DIGGER</h1>
       <hr />
       <div class="col-md-2"></div>
       <div class="col-md-8 container-fluid boxplayer">
-	<!-- <audio controls> -->
-	<!--   <source src="{% static 'mood/audio/Coin.wav' %}" type="audio/mpeg"> -->
-	<!--     Your browser does not support the audio element. -->
-	<!-- </audio> -->
-	<table class="table table-bordered table-hover table-responsive">
-	  {% for song in playlist %}
-	  <tr><td>{{song}}</td></tr>
-	  {% empty %}
-	  <tr><td>Nothing to display.</td></tr>
-	  {% endfor %}
+        <div id="pos"></div>
+	<table id="playlist" class="table table-bordered table-hover table-responsive">
+          <!-- <tr><td>Nothing to display.</td></tr> -->
 	</table>
       </div>
       <div class="col-md-2"></div>

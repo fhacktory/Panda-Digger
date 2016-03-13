@@ -30,7 +30,6 @@ $(document).ready(function() {
         dataType: "json",
         url: "pos",
         success: function(data) {
-                <!-- $("#pos").html(data.pos); -->
                 $("#playlist td").css("font-weight", "normal");
             $("#playlist tr:nth-child(" + (data.pos + 1) + ") td").css("font-weight", "bold");
         },
